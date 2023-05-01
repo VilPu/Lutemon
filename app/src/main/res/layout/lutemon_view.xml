@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layoutDescription="@xml/activity_lutemon_view_scene"
+    tools:context=".lutemon_view">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="4dp"
+        android:background="#C52828"
+        android:backgroundTint="#BA2020"
+        android:gravity="bottom|center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLutemonPic"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center|top"
+            android:layout_weight="3"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#000000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Titemon" />
+
+            <TextView
+                android:id="@+id/tvAttack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#000000"
+                tools:text="Hyökkäys: 69" />
+
+            <TextView
+                android:id="@+id/tvDefense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#000000"
+                tools:text="Puolustus: 96" />
+
+            <TextView
+                android:id="@+id/tvHealth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:textColor="#000000"
+                tools:text="Elämäpisteet: 100/100" />
+
+            <TextView
+                android:id="@+id/tvExperience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="#000000"
+                tools:text="Kokemus: 5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/btnToHome"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="false"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/skull" />
+
+            <ImageView
+                android:id="@+id/btnToTrain"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginRight="6dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/totrain" />
+
+            <ImageView
+                android:id="@+id/btnToBattle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="#FFFFFF"
+                app:srcCompat="@drawable/tobattle" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
