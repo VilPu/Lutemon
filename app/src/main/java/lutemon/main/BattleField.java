@@ -39,6 +39,7 @@ public class BattleField extends LutemonStorage {
 
             if (firstLutemon.getHealth() <= 0) {
                 battleLog.append((firstLutemon.getName() + " kuoli.\n"));
+                BattleField.getInstance().getLutemons().remove(firstLutemon.getId());
                 exit = true;
             } else battleLog.append((firstLutemon.getName() + " huijasi kuolemaa!\n"));
 
