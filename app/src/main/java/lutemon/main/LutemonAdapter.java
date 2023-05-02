@@ -11,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LutemonAdapter extends RecyclerView.Adapter<LutemonViewHolder> {
 
-    private Context context;
-    private ArrayList<Lutemon> lutemons = new ArrayList<>();
+    private final Context context;
 
-    public LutemonAdapter(Context context, ArrayList<Lutemon> lutemons) {
+
+    public LutemonAdapter(Context context) {
         this.context = context;
-        this.lutemons = lutemons;
     }
 
     @NonNull
@@ -33,24 +34,31 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull LutemonViewHolder holder, int position) {
         int index = holder.getAdapterPosition();
-        holder.txtName.setText(lutemons.get(index).getName() + " (" + lutemons.get(index).getColor() + ")");
-        holder.txtAttack.setText("Hyökkäys: " + lutemons.get(index).getAttack());
-        holder.txtDefense.setText("Puolustus: " + lutemons.get(index).getDefense());
-        holder.txtHealth.setText("Elämäpisteet: " + lutemons.get(index).getHealth() + "/" + lutemons.get(index).getMaxHealth());
-        holder.txtExperience.setText("Kokemus: " + lutemons.get(index).getExperience());
+        Lutemon lutemon = Home.getInstance().getLutemonByIndex(index);
 
-        if (lutemons.get(index).getColor() == "Vihreä") holder.ivLutemonPic.setImageResource(R.drawable.green);
-        if (lutemons.get(index).getColor() == "Musta") holder.ivLutemonPic.setImageResource(R.drawable.black);
-        if (lutemons.get(index).getColor() == "Oranssi") holder.ivLutemonPic.setImageResource(R.drawable.orange);
-        if (lutemons.get(index).getColor() == "Pinkki") holder.ivLutemonPic.setImageResource(R.drawable.pinky);
-        if (lutemons.get(index).getColor() == "Valkoinen") holder.ivLutemonPic.setImageResource(R.drawable.whitey);
+        holder.txtName.setText((lutemon.getName() + " (" + lutemon.getColor() + ")"));
+        holder.txtAttack.setText("Hyökkäys: " + lutemon.getAttack());
+        holder.txtDefense.setText("Puolustus: " + lutemon.getDefense());
+        holder.txtHealth.setText("Elämäpisteet: " + lutemon.getHealth() + "/" + lutemon.getMaxHealth());
+        holder.txtExperience.setText("Kokemus: " + lutemon.getExperience());
+
+        if (lutemon.getColor().equals("Vihreä"))
+            holder.ivLutemonPic.setImageResource(R.drawable.green);
+        if (lutemon.getColor().equals("Musta"))
+            holder.ivLutemonPic.setImageResource(R.drawable.black);
+        if (lutemon.getColor().equals("Oranssi"))
+            holder.ivLutemonPic.setImageResource(R.drawable.orange);
+        if (lutemon.getColor().equals("Pinkki"))
+            holder.ivLutemonPic.setImageResource(R.drawable.pinky);
+        if (lutemon.getColor().equals("Valkoinen"))
+            holder.ivLutemonPic.setImageResource(R.drawable.whitey);
 
         //Removes Lutemon
         holder.btnKillLutemon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int index = holder.getAdapterPosition();
-                Home.getInstance().getLutemons().remove(index);
+                Home.getInstance().removeLutemonByIndex(index);
                 notifyItemRemoved(index);
             }
         });
@@ -60,9 +68,10 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonViewHolder> {
             @Override
             public void onClick(View view) {
                 int index = holder.getAdapterPosition();
-                TrainingArea.getInstance().addLutemon(Home.getInstance().getLutemons().get(index));
-                Home.getInstance().getLutemons().remove(index);
+                TrainingArea.getInstance().addLutemon(Home.getInstance().getLutemonByIndex(index));
+                Home.getInstance().removeLutemonByIndex(index);
                 notifyItemRemoved(index);
+
             }
         });
 
@@ -71,8 +80,8 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonViewHolder> {
             @Override
             public void onClick(View view) {
                 int index = holder.getAdapterPosition();
-                BattleField.getInstance().addLutemon(Home.getInstance().getLutemons().get(index));
-                Home.getInstance().getLutemons().remove(index);
+                BattleField.getInstance().addLutemon(Home.getInstance().getLutemonByIndex(index));
+                Home.getInstance().removeLutemonByIndex(index);
                 notifyItemRemoved(index);
             }
 
@@ -82,6 +91,6 @@ public class LutemonAdapter extends RecyclerView.Adapter<LutemonViewHolder> {
 
     @Override
     public int getItemCount() {
-        return lutemons.size();
+        return Home.getInstance().getLutemons().size();
     }
 }

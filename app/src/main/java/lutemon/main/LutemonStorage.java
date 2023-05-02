@@ -1,16 +1,20 @@
 package lutemon.main;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class LutemonStorage {
-    private ArrayList<Lutemon> lutemons = new ArrayList<>();
+    private final LinkedHashMap<Integer, Lutemon> lutemons = new LinkedHashMap<>();
 
 
-    public ArrayList<Lutemon> getLutemons() {
+    public HashMap<Integer, Lutemon> getLutemons() {
         return lutemons;
     }
+
     public void addLutemon(Lutemon lutemon) {
-        lutemons.add(lutemon);
+        lutemons.put(lutemon.getId(), lutemon);
     }
+
 
 }

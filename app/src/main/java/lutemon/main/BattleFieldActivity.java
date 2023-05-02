@@ -11,13 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class BattleFieldActivity extends AppCompatActivity {
 
     private int numberOfCheckedCheckBoxes = 0;
     private final HashMap<Integer, CheckBox> checkBoxes = new HashMap<>();
-    private final HashMap<Integer, Lutemon> lutemonHashMap = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +24,19 @@ public class BattleFieldActivity extends AppCompatActivity {
         setContentView(R.layout.activity_battle_field);
 
         createLutemonCheckBoxes();
-        moveLutemonsFromArrayListToHashMap();
 
     }
 
-    //creates a HashMap that is identical to storage.
-    public void moveLutemonsFromArrayListToHashMap() {
-        for (Lutemon lutemon : BattleField.getInstance().getLutemons()
-        ) {
-            lutemonHashMap.put(lutemon.getId(), lutemon);
-        }
-    }
-
-    //Creates checkboxes that correspond to each Lutemon in storage.
+    //Creates checkboxes that correspond to each Lutemon in BattleField storage.
+    //Also adds logic that 0...2 cb's in total can only be actived
     public void createLutemonCheckBoxes() {
         LinearLayout linearLayout = findViewById(R.id.linearLayout);
         linearLayout.removeAllViews();
 
-        for (Lutemon lutemon : BattleField.getInstance().getLutemons()
+        for (Map.Entry<Integer, Lutemon> set : BattleField.getInstance().getLutemons().entrySet()
         ) {
+            Lutemon lutemon = set.getValue();
+
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(lutemon.getName());
             checkBox.setId(lutemon.getId());
@@ -91,84 +84,42 @@ public class BattleFieldActivity extends AppCompatActivity {
         linearLayout.addView(textView);
     }
 
-    //Gives method fightTillLutemonDies participants and calls it creating the fighting logic
-    public void fight(View view) {
-        Lutemon fightingLutemon1 = null;
-        Lutemon fightingLutemon2 = null;
+    //Finds parameters for method BattleField.fight() and adds battlelog text with addText()
+    public void fightTillDeath(View view) {
+        LinearLayout llBattleLog = findViewById(R.id.llBattleLog);
+        llBattleLog.removeAllViews();
 
-        LinearLayout linearLayout = findViewById(R.id.llBattleLog);
-        linearLayout.removeAllViews();
+        boolean exit = true;
+        Lutemon firstLutemon = null, secondLutemon = null;
 
-        if (numberOfCheckedCheckBoxes != 2) return;
 
-        for (HashMap.Entry<Integer, CheckBox> set : checkBoxes.entrySet()
+        for (Map.Entry<Integer, CheckBox> set : checkBoxes.entrySet()
         ) {
             if (set.getValue().isChecked()) {
-                if (fightingLutemon1 == null) fightingLutemon1 = lutemonHashMap.get(set.getKey());
-                else fightingLutemon2 = lutemonHashMap.get(set.getKey());
+                if (firstLutemon == null)
+                    firstLutemon = BattleField.getInstance().getLutemons().get(set.getValue().getId());
+                else
+                    secondLutemon = BattleField.getInstance().getLutemons().get(set.getValue().getId());
             }
         }
 
-        while (fightTillLutemonDies(fightingLutemon1, fightingLutemon2));
-        addText("Taistelu on päättynyt.");
+        if (firstLutemon == null || secondLutemon == null) return;
 
+
+        addText(BattleField.fight(firstLutemon, secondLutemon));
         checkBoxes.clear();
-        createLutemonCheckBoxes();
         numberOfCheckedCheckBoxes = 0;
-
+        createLutemonCheckBoxes();
     }
 
-    //Goes through the whole fighting process including the battlelog, returns false when the other Lutemon dies
-    public boolean fightTillLutemonDies(Lutemon fightingLutemon1, Lutemon fightingLutemon2) {
 
-        addLutemonStatsToBattleLog(fightingLutemon1);
-        addLutemonStatsToBattleLog(fightingLutemon2);
-
-        addText(fightingLutemon1.getName() + " hyökkää kohti " + fightingLutemon2.getName() + "!");
-        fightingLutemon1.attack(fightingLutemon2);
-
-        if (fightingLutemon2.getHealth() <= 0) {
-            addText(fightingLutemon2.getName() + " kuoli.");
-
-            BattleField.getInstance().getLutemons().remove(lutemonHashMap.get(fightingLutemon2.getId()));
-            lutemonHashMap.remove(fightingLutemon2.getId());
-            return false;
-        } else addText(fightingLutemon2.getName() + " huijasi kuolemaa!");
-
-        addLutemonStatsToBattleLog(fightingLutemon1);
-        addLutemonStatsToBattleLog(fightingLutemon2);
-
-        addText(fightingLutemon2.getName() + " hyökkää kohti " + fightingLutemon1.getName());
-        fightingLutemon2.attack(fightingLutemon1);
-
-        if (fightingLutemon1.getHealth() <= 0) {
-            addText(fightingLutemon1.getName() + " kuoli.");
-
-            BattleField.getInstance().getLutemons().remove(lutemonHashMap.get(fightingLutemon1.getId()));
-            lutemonHashMap.remove(fightingLutemon1.getId());
-            return false;
-        } else addText(fightingLutemon1.getName() + " huijasi kuolemaa!");
-        return true;
-
-
-    }
-
-    //sets Lutemons stats to the battle log using addText method
-    public void addLutemonStatsToBattleLog(Lutemon lutemon) {
-        addText("||  " + lutemon.getName() + " (" + lutemon.getColor() + ") " + " h: " + lutemon.getAttack() + " p: " + lutemon.getDefense() + " kok: " + lutemon.getExperience() + " elämä: " + lutemon.getHealth() + "/" + lutemon.getMaxHealth() + "  ||");
-    }
-
-    //Checks for selected checkboxes and sends corresponding Lutemons to Home's storage
+    //Checks for selected checkboxes and sends corresponding Lutemons to Home's storage using BattleField.sendHome()
     public void sendLutemonToHome(View view) {
 
         for (HashMap.Entry<Integer, CheckBox> set : checkBoxes.entrySet()
         ) {
             if (set.getValue().isChecked()) {
-
-                Home.getInstance().addLutemon(lutemonHashMap.get(set.getKey()));
-                BattleField.getInstance().getLutemons().remove(lutemonHashMap.get(set.getKey()));
-                lutemonHashMap.remove(set.getKey());
-
+                BattleField.sendHome(set.getKey());
             }
 
         }

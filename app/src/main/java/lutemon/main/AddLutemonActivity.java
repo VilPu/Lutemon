@@ -1,18 +1,13 @@
 package lutemon.main;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -38,7 +33,6 @@ public class AddLutemonActivity extends AppCompatActivity {
         if (etLutemonName.getText().toString().isEmpty()) {
             return;
         }
-
 
         switch (IDofSelected) {
             case R.id.rbGreen:
@@ -70,7 +64,7 @@ public class AddLutemonActivity extends AppCompatActivity {
     }
 
 
-    //Creates a snackbar on the bottom of the screen displaying "message"
+    //Creates a snackbar to top of the screen displaying parameter "message"
     public void lutemonCreatedSnackbar(String message) {
         Snackbar snackbar = Snackbar.make(getWindow().getCurrentFocus(), message, Snackbar.LENGTH_SHORT);
         View view = snackbar.getView();

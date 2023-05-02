@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     protected RecyclerView recyclerView;
-    public LutemonAdapter lutemonAdapter = new LutemonAdapter(this, Home.getInstance().getLutemons());
+    public LutemonAdapter lutemonAdapter = new LutemonAdapter(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +35,6 @@ public class MainActivity extends AppCompatActivity {
         lutemonAdapter.notifyDataSetChanged();
     }
 
-    public void testAddLutemons(View view) {
-        Home.getInstance().addLutemon(new Lutemon("testi", "vihreä", 1, 2, 10));
-        Home.getInstance().addLutemon(new Lutemon("testi2", "vihreä", 1, 2, 10));
-        Home.getInstance().addLutemon(new Lutemon("testi3", "vihreä", 1, 2, 10));
-        Home.getInstance().addLutemon(new Lutemon("testi4", "vihreä", 1, 2, 10));
-        lutemonAdapter.notifyDataSetChanged();
-    }
 
     //Methods for switching activity
     public void switchToBattleFieldActivity(View view) {

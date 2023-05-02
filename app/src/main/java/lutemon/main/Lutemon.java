@@ -4,14 +4,14 @@ package lutemon.main;
 import androidx.annotation.NonNull;
 
 public class Lutemon {
-    private String name;
-    private String color;
+    private final String name;
+    private final String color;
     private int attack;
     private int defense;
     private int experience;
     private int health;
     private int maxHealth;
-    private int id;
+    private final int id;
     private static int idCounter = 0;
 
     public Lutemon(String name, String color, int attack, int defense, int maxHealth) {
