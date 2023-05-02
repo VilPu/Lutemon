@@ -18,7 +18,7 @@ public class TrainingArea extends LutemonStorage {
         TrainingArea.getInstance().getLutemons().remove(id);
     }
 
-    //Heals Lutemon and increases combat stats with logic
+    //Heals Lutemon and increases combat stats via logic
     public static void trainLutemon(Lutemon lutemon) {
         if (lutemon == null) return;
 
@@ -33,7 +33,7 @@ public class TrainingArea extends LutemonStorage {
         if (lutemon.getExperience() % 15 == 0) increaseLutemonMaxHealth(lutemon);
     }
 
-
+    //Methods to increase Lutemon stats
     private static void healLutemon(Lutemon lutemon) {
         lutemon.setHealth(lutemon.getMaxHealth());
     }
@@ -53,11 +53,6 @@ public class TrainingArea extends LutemonStorage {
     private static void increaseLutemonMaxHealth(Lutemon lutemon) {
         lutemon.setMaxHealth((int) (lutemon.getMaxHealth() + 3 * Math.random()));
         lutemon.setHealth(lutemon.getMaxHealth());
-    }
-
-    public Lutemon getLutemonByIndex(int index) {
-        Set<Integer> set = getInstance().getLutemons().keySet();
-        return getInstance().getLutemons().get(set.toArray()[index]);
     }
 
 }

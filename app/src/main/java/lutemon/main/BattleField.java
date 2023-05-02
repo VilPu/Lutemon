@@ -1,7 +1,5 @@
 package lutemon.main;
 
-import java.util.Set;
-
 public class BattleField extends LutemonStorage {
     private static BattleField battleField = null;
 

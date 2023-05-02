@@ -1,8 +1,5 @@
 package lutemon.main;
 
-
-import androidx.annotation.NonNull;
-
 public class Lutemon {
     private final String name;
     private final String color;
